@@ -83,7 +83,7 @@ class AttendanceController extends Controller
                             INNER JOIN attendance_user 
                             ON attendance_user.id = attendance.attendance_user_id
                             WHERE t.date BETWEEN ? AND ?
-                            ORDER BY t.date DESC;
+                            ORDER BY t.date DESC, attend_date DESC;
                             ",[$from, $to]);
         return json_encode($data);
     }
