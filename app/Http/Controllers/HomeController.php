@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 use QrCode;
 
 class HomeController extends Controller
@@ -28,13 +29,14 @@ class HomeController extends Controller
     public function index()
     {
         $data = DB::select('
-                            SELECT @n := @n + 1 rownumber, attendance_user.name as user_name, attendance_user.phone as user_phone, attendance_user.kaj as user_kaj, attendance_user.email as user_email, t.name as event_name, t.date as event_date, attend_date
+                            SELECT @n := @n + 1 rownumber, attendance_user.name as user_name, attendance_user.phone as user_phone, attendance_user.kaj as user_kaj, attendance_user.email as user_email, t.name as event_name, t.date as event_date, attend_date, attendance.id as at_id
                             FROM (SELECT @n := 0) m, attendance
                             INNER JOIN 
                             (SELECT event_date.date, event.name, event_date.id as event_unique_id FROM event_date INNER JOIN event ON event_date.event_id = event.id WHERE event.status = 1) as t 
                             ON t.event_unique_id = attendance.event_date_id
                             INNER JOIN attendance_user 
                             ON attendance_user.id = attendance.attendance_user_id
+                            ORDER BY at_id DESC
                             ');
         // return $data;
         return view('home', ['active'=>'dashboard', 'data' => json_encode($data)]);
@@ -43,6 +45,7 @@ class HomeController extends Controller
     public function generateQRCode() {
         $activity = Input::get('activity');
         $date = Input::get('date');
+        $random =  Str::random(5);
 
         if ($date == '' || $date == null) {
             if ($activity == 1) {
@@ -58,6 +61,10 @@ class HomeController extends Controller
 
         if (!empty($findExist)) {
             $insertID = $findExist->id;
+            DB::table('event_date')->where('id',$insertID)->update([
+                                                                // 'qr_code' => $dir,
+                                                                'old_random_str' => $findExist->new_random_str
+                                                                ]);
         } else {
             // STORE EVENT IN DB
             $insertID = DB::table('event_date')->insertGetId(
@@ -67,11 +74,11 @@ class HomeController extends Controller
                                             ] );
         }
 
-        $combine = $activity.';'.$date.';'.$insertID;
+        $combine = $activity.';'.$date.';'.$insertID.';'.$random;
         // $encrypted = route('home').'/attendance/'.Crypt::encryptString($combine);
         $encrypted = 'http://192.168.1.102/nextgen_administration/public/attendance/'.Crypt::encryptString($combine);
         // return $encrypted;
-        $pngImg = QrCode::format('png')->size(800)->errorCorrection('H')->generate($encrypted);
+        // $pngImg = QrCode::format('png')->size(800)->errorCorrection('H')->generate($encrypted);
         // TODO: STORE QRCODE IMG
         // $image_resize = Image::make($pngImg);
         // $image_resize->save(public_path('img/qrcodes/' . $combine .'.png'));
@@ -81,11 +88,13 @@ class HomeController extends Controller
 
         DB::table('event_date')->where('id',$insertID)->update([
                                                                 // 'qr_code' => $dir,
+                                                                'new_random_str' => $random,
                                                                 'updated_at' => date('Y-m-d H:i:s', strtotime('now'))
                                                                 ]);
 
         // return 'http://localhost/sat1012/public/attendance/'.$encrypted;
-        return response($pngImg)->header('Content-type','image/png');
+        // return response($pngImg)->header('Content-type','image/png');
+        return view('qrcode', ['enc' => $encrypted]);
         
     }
 }
