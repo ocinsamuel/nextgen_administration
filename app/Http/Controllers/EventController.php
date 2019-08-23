@@ -30,7 +30,7 @@ class EventController extends Controller
     public function index()
     {
         // $json_data = json_encode(DB::table('event')->get());
-        $json_data = json_encode(DB::select('SELECT @n := @n + 1 rownumber,event.* FROM (SELECT @n := 0) m, event WHERE status != 0'));
+        $json_data = json_encode(DB::select('SELECT @n := @n + 1 rownumber,event.*, branch.name as branch_name FROM (SELECT @n := 0) m, event INNER JOIN branch ON event.branch_id = branch.id WHERE event.status != 0 AND branch.status != 0'));
         return view('event.event', ['data' => $json_data, 'active' => 'event']);
     }
 
