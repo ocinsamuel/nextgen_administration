@@ -86,6 +86,18 @@
                         </span>
                     </a>
                 </li>
+                <li class="m-menu__item <?php if (isset($active)) { if ($active == 'branch') { echo 'm-menu__item--active'; }} ?>" aria-haspopup="true" >
+                    <a  href="{{ route('branch') }}" class="m-menu__link ">
+                        <i class="m-menu__link-icon flaticon-placeholder-1"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Branch
+                                </span>
+                            </span>
+                        </span>
+                    </a>
+                </li>
                 <li class="m-menu__section">
                     <h4 class="m-menu__section-text">
                         Snippets

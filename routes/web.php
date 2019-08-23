@@ -38,3 +38,6 @@ Route::prefix('event')->group(function () {
 	Route::get('dates/{id}','EventController@dates');
 	Route::get('fetch','EventController@fetch');
 });
+
+// BRANCH
+Route::get('branch', 'BranchController@index')->name('branch');
