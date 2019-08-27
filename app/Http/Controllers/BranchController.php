@@ -31,6 +31,14 @@ class BranchController extends Controller
         return view('branch.branch', ['data' => $json_data, 'active' => 'branch']);
     }
 
+    public function add(Request $request) {
+        
+    }
+
+    public function edit (Request $request) {
+
+    }
+
     public function fetch() {
         $json_data = json_encode(DB::table('branch')->where('status',1)->get());
 
