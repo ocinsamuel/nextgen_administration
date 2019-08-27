@@ -30,4 +30,10 @@ class BranchController extends Controller
         $json_data = json_encode(DB::select('SELECT @n := @n + 1 rownumber,branch.* FROM (SELECT @n := 0) m, branch WHERE status != 0'));
         return view('branch.branch', ['data' => $json_data, 'active' => 'branch']);
     }
+
+    public function fetch() {
+        $json_data = json_encode(DB::table('branch')->where('status',1)->get());
+
+        return $json_data;
+    }
 }

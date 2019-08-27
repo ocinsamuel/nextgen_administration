@@ -80,7 +80,7 @@
                                             </div>
                                         </div>
                                         <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                                            <a href="#" data-toggle="modal" data-target="#add_event_modal" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+                                            <a href="#" data-toggle="modal" data-target="#add_event_modal" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill add_event">
                                                 <span>
                                                     <i class="flaticon-time-1"></i>
                                                     <span>

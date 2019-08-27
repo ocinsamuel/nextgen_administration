@@ -134,6 +134,30 @@ $(document).ready(function() {
 		$('#edit_user_modal input[name="status"][value='+status+']').prop('checked',true);
 	});
 
+	$(".add_event").click(function () { 
+		var selectbox = $('#add_event_modal select[name="branch"]');
+
+	    $.ajax(
+        {
+          url: base_url + '/branch/fetch/',
+          type:'GET',
+          dataType : "json",
+          data: {},
+          success:function(data)
+          {
+            selectbox.html('');
+
+            if (data.length != 0) {
+            	var append = '';
+            	jQuery.each(data, function(index, item) {
+            		append += '<option value='+item.id+'>' + item.name + '</option>';
+            	});
+            	selectbox.append(append);
+          	}
+          }
+        });
+	});
+
 	$(document).on('click','.edit_event',function(){
 		var id = $(this).data('id');
 		var name = $(this).data('name');
@@ -145,6 +169,27 @@ $(document).ready(function() {
 
 		var table = $('#details_event_table');
 		var loader = $('#edit_event_modal .loader');
+		var selectbox = $('#edit_event_modal select[name="branch"]');
+
+	    $.ajax(
+        {
+          url: base_url + '/branch/fetch/',
+          type:'GET',
+          dataType : "json",
+          data: {},
+          success:function(data)
+          {
+            selectbox.html('');
+
+            if (data.length != 0) {
+            	var append = '';
+            	jQuery.each(data, function(index, item) {
+            		append += '<option value='+item.id+'>' + item.name + '</option>';
+            	});
+            	selectbox.append(append);
+          	}
+          }
+        });
 
 		$.ajax(
         {
