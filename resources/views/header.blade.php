@@ -373,6 +373,13 @@ License: You must have a valid license purchased only from themeforest(the above
                                         </label>
                                         <input class="form-control m-input" type="text" name="name">
                                     </div>
+                                    <div class="form-group">
+                                        <label for="recipient-name" class="form-control-label">
+                                            Branch:
+                                        </label>
+                                        <select class="form-control m-input" name="branch">
+                                        </select>
+                                    </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -409,6 +416,13 @@ License: You must have a valid license purchased only from themeforest(the above
                                         Name:
                                     </label>
                                     <input class="form-control m-input" type="text" name="name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-name" class="form-control-label">
+                                        Branch:
+                                    </label>
+                                    <select class="form-control m-input" name="branch">
+                                    </select>
                                 </div>
                                 
                                 <div class="m-form__group form-group">
