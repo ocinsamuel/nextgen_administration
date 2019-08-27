@@ -32,11 +32,48 @@ class BranchController extends Controller
     }
 
     public function add(Request $request) {
-        
+        $name = strip_tags($request->input('name'));
+        $status = 2;
+        $created_at = date('Y-m-d H:i:s', strtotime('now'));
+
+        $check = DB::table('branch')->where('name',$name)->first();
+
+        if (!$check) {
+
+            $insertID = DB::table('branch')->insertGetId([
+                                                            'name'=>$name,
+                                                            'status'=>$status,
+                                                            'created_at'=>$created_at
+                                                        ]);
+
+            if ($insertID) {
+                return redirect('/branch')->with('addBranch', array('status' => 1, 'message' => 'Branch added successfully.'));
+            } else {
+                return redirect('/branch')->with('addBranch', array('status' => 0, 'message' => 'Unexpected error occured!'));
+            }
+        } else {
+            return redirect('/branch')->with('addBranch', array('status' => 0, 'message' => 'Branch already exists!'));
+        }
     }
 
-    public function edit (Request $request) {
+    public function edit(Request $request) {
+        $id = strip_tags($request->input('id'));
+        $name = strip_tags($request->input('name'));
+        $status = strip_tags($request->input('status'));
 
+        $check = DB::table('branch')->where('id',$id)->first();
+
+        if ($check) {
+
+            $update = DB::table('branch')->where('id',$id)->update([
+                                                            'name'=>$name,
+                                                            'status'=>$status
+                                                           ]);
+
+            return redirect('/branch')->with('addBranch', array('status' => 1, 'message' => 'Branch edited successfully.'));
+        } else {
+            return redirect('/branch')->with('addBranch', array('status' => 0, 'message' => 'Branch not found!'));
+        }
     }
 
     public function fetch() {
