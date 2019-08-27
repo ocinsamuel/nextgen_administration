@@ -486,5 +486,95 @@ License: You must have a valid license purchased only from themeforest(the above
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="add_branch_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Add Branch
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">
+                                    &times;
+                                </span>
+                            </button>
+                        </div>
+                        <form type="POST" action="{{ route('addBranch' )}}">
+                            @csrf
+                            <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="recipient-name" class="form-control-label">
+                                            Name:
+                                        </label>
+                                        <input class="form-control m-input" type="text" name="name">
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Close
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="edit_branch_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Edit Branch
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">
+                                    &times;
+                                </span>
+                            </button>
+                        </div>
+                        <form type="POST" action="{{route('editBranch')}}">
+                            @csrf
+                            <div class="modal-body">
+                                    <input type="hidden" name="id">
+                                    <div class="form-group">
+                                        <label for="recipient-name" class="form-control-label">
+                                            Name:
+                                        </label>
+                                        <input class="form-control m-input" type="text" name="name">
+                                    </div>
+                                    <div class="m-form__group form-group">
+                                        <label for="">
+                                            Status
+                                        </label>
+                                        <div class="m-radio-inline">
+                                            <label class="m-radio m-radio--state-success">
+                                                <input type="radio" name="status" value="1">
+                                                Active
+                                                <span></span>
+                                            </label>
+                                            <label class="m-radio">
+                                                <input type="radio" name="status" value="2">
+                                                Inactive
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Close
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <!--end::Modal-->
             <!-- END: Header -->

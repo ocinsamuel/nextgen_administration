@@ -41,3 +41,7 @@ Route::prefix('event')->group(function () {
 
 // BRANCH
 Route::get('branch', 'BranchController@index')->name('branch');
+Route::prefix('branch')->group(function () {
+	Route::get('add','BranchController@add')->name('addBranch');
+	Route::get('edit','BranchController@edit')->name('editBranch');
+});

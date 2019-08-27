@@ -45,6 +45,27 @@ if ($('#event_table').length) {
 			]}),i=a.getDataSourceQuery();$("#m_form_search").on("keyup",function(e){a.search($(this).val().toLowerCase())}).val(i.generalSearch),$("#m_form_status").on("change",function(){a.search($(this).val(),"Status")}).val(void 0!==i.Status?i.Status:""),$("#m_form_type").on("change",function(){a.search($(this).val(),"Type")}).val(void 0!==i.Type?i.Type:""),$("#m_form_status, #m_form_type").selectpicker()};return{init:function(){e()}}}();jQuery(document).ready(function(){eventTable.init()});
 }
 
+if ($('#branch_table').length) {
+	var branchTable=function(){var e=function(){
+		// var e=JSON.parse('[{"RecordID":1,"name":"54473-251","email":"GT","kaj":"San Pedro Ayampuc","position_id":"Sanford-Halvorson","ShipAddress":"897 Magdeline Park","CompanyEmail":"sgormally0@dot.gov","CompanyAgent":"Shandra Gormally","CompanyName":"Eichmann, Upton and Homenick","Currency":"GTQ","Notes":"sit amet cursus id turpis integer aliquet massa id lobortis convallis","Department":"Computers","Website":"house.gov","Latitude":"14.78667","Longitude":"-90.45111","ShipDate":"5/21/2016","TimeZone":"America/Guatemala","Status":1,"Type":2}]'),
+		// var e=JSON.parse('[{"RecordID":1,"name":"54473-251","email":"GT","kaj":"San Pedro Ayampuc","position_id":"Sanford-Halvorson","ShipAddress":"897 Magdeline Park","CompanyEmail":"sgormally0@dot.gov","CompanyAgent":"Shandra Gormally","CompanyName":"Eichmann, Upton and Homenick","Currency":"GTQ","Notes":"sit amet cursus id turpis integer aliquet massa id lobortis convallis","Department":"Computers","Website":"house.gov","Latitude":"14.78667","Longitude":"-90.45111","ShipDate":"5/21/2016","TimeZone":"America/Guatemala","Status":1,"Type":2}]');
+		var e= data,
+			a=$("#branch_table").mDatatable({
+			data:{
+				type:"local",
+				source:e,
+				pageSize:10
+				},
+			layout:{
+				theme:"default",class:"",scroll:!1,height:450,footer:!1},sortable:!0,pagination:!0,
+			columns:[
+				{field:"rownumber",title:"#",width:50,sortable:!1,selector:!1,textAlign:"center"},
+				{field:"name",title:"Name"},
+				{field:"status",title:"Status",template:function(e){var a={1:{title:"Active",class:"m-badge--success"},2:{title:"Inactive",class:" m-badge--metal"},3:{title:"Pending",class:" m-badge--primary"}};return'<span class="m-badge '+a[e.status].class+' m-badge--wide">'+a[e.status].title+"</span>"}},
+				{field:"Action",width:110,title:"Action",sortable:!1,overflow:"visible",template:function(e){return'\t\t\t\t\t\t  \t</div>\t\t\t\t\t\t</div>\t\t\t\t\t\t<a href="" data-toggle="modal" data-target="#edit_branch_modal" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit_branch" data-id='+e.id+' data-name='+e.name+' data-status='+e.status+' title="View">                            <i class="la la-edit"></i>                        </a>\t\t\t\t\t'}}
+			]}),i=a.getDataSourceQuery();$("#m_form_search").on("keyup",function(e){a.search($(this).val().toLowerCase())}).val(i.generalSearch),$("#m_form_status").on("change",function(){a.search($(this).val(),"Status")}).val(void 0!==i.Status?i.Status:""),$("#m_form_type").on("change",function(){a.search($(this).val(),"Type")}).val(void 0!==i.Type?i.Type:""),$("#m_form_status, #m_form_type").selectpicker()};return{init:function(){e()}}}();jQuery(document).ready(function(){branchTable.init()});
+}
+
 // var DatatableHtmlTableDemo;
 if ($('#html_table').length) {
 	var DatatableHtmlTableDemo=function(){var e=function(){
