@@ -223,6 +223,16 @@ $(document).ready(function() {
         });
 	});
 
+	$(document).on('click','.edit_branch',function(){
+		var id = $(this).data('id');
+		var name = $(this).data('name');
+		var status = $(this).data('status');
+
+		$('#edit_branch_modal input[name="id"]').val(id);
+		$('#edit_branch_modal input[name="name"]').val(name);
+		$('#edit_branch_modal input[name="status"][value='+status+']').prop('checked',true);
+	});
+
 	$(document).on('click','.ranges li, .range_inputs .applyBtn', function(){
 		if ($(this).attr('data-range-key') != "Custom Range") {
 			// console.log($('.home_daterange').html());
