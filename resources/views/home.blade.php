@@ -67,6 +67,34 @@
                                                 <div class="col-xl-8 order-2 order-xl-1">
                                                     <div class="form-group m-form__group row align-items-center">
                                                         <div class="col-md-4">
+                                                            <div class="m-form__group m-form__group--inline">
+                                                                <div class="m-form__label">
+                                                                    <label>
+                                                                        Branch:
+                                                                    </label>
+                                                                </div>
+                                                                <div class="m-form__control">
+                                                                    <div class="m-form__control">
+                                                                        <select class="form-control" id="m_form_status">
+                                                                            <option value="">
+                                                                                All
+                                                                            </option>
+                                                                            <option value="1">
+                                                                                Barsi
+                                                                            </option>
+                                                                            <option value="2">
+                                                                                Aruna
+                                                                            </option>
+                                                                            <option value="3">
+                                                                                Harris
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-md-none m--margin-bottom-10"></div>
+                                                        </div>
+                                                        <div class="col-md-4">
                                                             <div class="m-input-icon m-input-icon--left">
                                                                 <input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
                                                                 <span class="m-input-icon__icon m-input-icon__icon--left">
