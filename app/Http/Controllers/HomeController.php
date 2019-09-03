@@ -29,7 +29,7 @@ class HomeController extends Controller
     public function index()
     {
         $data = DB::select('
-                            SELECT @n := @n + 1 rownumber, attendance_user.name as user_name, attendance_user.phone as user_phone, attendance_user.kaj as user_kaj, attendance_user.email as user_email, t.name as event_name, t.date as event_date, attend_date, attendance.id as at_id
+                            SELECT @n := @n + 1 rownumber, attendance_user.name as user_name, attendance_user.phone as user_phone, attendance_user.kaj as user_kaj, attendance_user.email as user_email, t.name as event_name, t.date as event_date, attend_date, attendance.id as at_id, t.branch_name as branch_name
                             FROM (SELECT @n := 0) m, attendance
                             INNER JOIN 
                             (SELECT event.branch_id as branch_id, branch.name as branch_name, event_date.date, event.name, event_date.id as event_unique_id FROM event_date INNER JOIN event ON event_date.event_id = event.id INNER JOIN branch ON event.branch_id = branch.id WHERE event.status = 1 AND branch.status = 1) as t 
@@ -38,8 +38,10 @@ class HomeController extends Controller
                             ON attendance_user.id = attendance.attendance_user_id
                             ORDER BY at_id DESC
                             ');
+
+        $branch = DB::select('SELECT * FROM branch WHERE status = 1');
         // return $data;
-        return view('home', ['active'=>'dashboard', 'data' => json_encode($data)]);
+        return view('home', ['active'=>'dashboard', 'data' => json_encode($data), 'branch' => $branch]);
     }
 
     public function generateQRCode() {

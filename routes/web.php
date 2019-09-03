@@ -17,7 +17,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('qr-code', 'HomeController@generateQRCode')->name('qr-code');
 
 Route::get('attendance/{url}', 'AttendanceController@readURL');
-Route::get('fetchattendance/{daterange}', 'AttendanceController@fetchAttendanceByDate');
+Route::get('fetchattendance/{daterange}/{filter?}', 'AttendanceController@fetchAttendanceByFilter');
 Route::post('attend/', 'AttendanceController@attend')->name('attend');
 
 

@@ -65,43 +65,47 @@ class AttendanceController extends Controller
         }
     }
 
-    public function fetchAttendanceByDate($daterange) {
-        $temp = explode('-', $daterange);
-        if (count($temp) > 1) {
-            $from = date("Y-m-d", strtotime($temp[0]));
-            $to = date("Y-m-d", strtotime($temp[1]));
-        } else {
-            $from = date("Y-m-d", strtotime($temp[0]));
-            $to = date("Y-m-d", strtotime($temp[0]));
-        }
-        $data = DB::select("
-                            SELECT @n := @n + 1 rownumber, attendance_user.name as user_name, attendance_user.phone as user_phone, attendance_user.kaj as user_kaj, attendance_user.email as user_email, t.name as event_name, t.date as event_date, attend_date
-                            FROM (SELECT @n := 0) m, attendance
-                            INNER JOIN 
-                            (SELECT event.branch_id as branch_id, branch.name as branch_name, event_date.date, event.name, event_date.id as event_unique_id FROM event_date INNER JOIN event ON event_date.event_id = event.id INNER JOIN branch ON event.branch_id = branch.id WHERE event.status = 1 AND branch.status = 1) as t 
-                            ON t.event_unique_id = attendance.event_date_id
-                            INNER JOIN attendance_user 
-                            ON attendance_user.id = attendance.attendance_user_id
-                            WHERE t.date BETWEEN ? AND ?
-                            ORDER BY t.date DESC, attend_date DESC;
-                            ",[$from, $to]);
-        return json_encode($data);
-    }
+    public function fetchAttendanceByFilter($daterange, $filter = '0') {
 
-    public function fetchAttendanceByFilter($filter) {
-        $filterStr = 't.name = ' . $filter;
-        $filterStr = 't.branch_name = ' .$filter;
+        $where = array();
+
+        if ($daterange != 'all') {
+            $temp = explode('-', $daterange);
+            if (count($temp) > 1) {
+                $from = date("Y-m-d", strtotime($temp[0]));
+                $to = date("Y-m-d", strtotime($temp[1]));
+            } else {
+                $from = date("Y-m-d", strtotime($temp[0]));
+                $to = date("Y-m-d", strtotime($temp[0]));
+            }
+
+            $where[] = 't.date BETWEEN "'. $from . '" AND "' . $to . '"';
+        }
+
+        if ($filter != 0) {
+            $where[] = 't.branch_id = ' .$filter;
+        }
+
+        if (!empty($where)) {
+            if (count($where) > 1) {
+                $filter = ' WHERE '.implode(' AND ', $where);
+            } else {
+                $filter = ' WHERE '.implode(' ', $where);
+            }
+        }
+
         $data = DB::select("
-                            SELECT @n := @n + 1 rownumber, attendance_user.name as user_name, attendance_user.phone as user_phone, attendance_user.kaj as user_kaj, attendance_user.email as user_email, t.name as event_name, t.date as event_date, attend_date
+                            SELECT @n := @n + 1 rownumber, attendance_user.name as user_name, attendance_user.phone as user_phone, attendance_user.kaj as user_kaj, attendance_user.email as user_email, t.name as event_name, t.date as event_date, attend_date, attendance.id as at_id, t.branch_name as branch_name
                             FROM (SELECT @n := 0) m, attendance
                             INNER JOIN 
                             (SELECT event.branch_id as branch_id, branch.name as branch_name, event_date.date, event.name, event_date.id as event_unique_id FROM event_date INNER JOIN event ON event_date.event_id = event.id INNER JOIN branch ON event.branch_id = branch.id WHERE event.status = 1 AND branch.status = 1) as t 
                             ON t.event_unique_id = attendance.event_date_id
                             INNER JOIN attendance_user 
                             ON attendance_user.id = attendance.attendance_user_id
-                            WHERE ".$filterStr."
+                            ".$filter."
                             ORDER BY t.date DESC, attend_date DESC;
                             ");
+
         return json_encode($data);
     }
 }

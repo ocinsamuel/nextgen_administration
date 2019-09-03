@@ -66,7 +66,7 @@
                                             <div class="row align-items-center">
                                                 <div class="col-xl-8 order-2 order-xl-1">
                                                     <div class="form-group m-form__group row align-items-center">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <div class="m-form__group m-form__group--inline">
                                                                 <div class="m-form__label">
                                                                     <label>
@@ -75,19 +75,18 @@
                                                                 </div>
                                                                 <div class="m-form__control">
                                                                     <div class="m-form__control">
-                                                                        <select class="form-control" id="m_form_status">
-                                                                            <option value="">
+                                                                        <select class="form-control" id="m_form_branch" name = "branch">
+                                                                            <option value="all">
                                                                                 All
                                                                             </option>
-                                                                            <option value="1">
-                                                                                Barsi
+                                                                            <?php
+                                                                                foreach ($branch as $item) {
+                                                                            ?>
+                                                                            
+                                                                            <option value="<?php echo $item->id?>">
+                                                                                <?php echo $item->name;?>
                                                                             </option>
-                                                                            <option value="2">
-                                                                                Aruna
-                                                                            </option>
-                                                                            <option value="3">
-                                                                                Harris
-                                                                            </option>
+                                                                            <?php } ?>
                                                                         </select>
                                                                     </div>
                                                                 </div>

@@ -82,7 +82,7 @@ if ($('#html_table').length) {
 				// {field:"rownumber",title:"#",width:50,sortable:!1,selector:!1,textAlign:"center"},
 				{field:"user_name",title:"Name",textAlign:"center"},
 				{field:"user_phone",title:"Phone",textAlign:"center"},
-				{field:"user_kaj",title:"No. KAJ",textAlign:"center"},
+				{field:"branch_name",title:"Branch",textAlign:"center"},
 				{field:"event_name",title:"Event",textAlign:"center"},
 				{field:"event_date",title:"Event Date",textAlign:"center"},
 				{field:"attend_date",title:"Attend Date",textAlign:"center"}
@@ -238,14 +238,16 @@ $(document).ready(function() {
 		$('#edit_branch_modal input[name="status"][value='+status+']').prop('checked',true);
 	});
 
-	$(document).on('click','.ranges li, .range_inputs .applyBtn', function(){
-		if ($(this).attr('data-range-key') != "Custom Range") {
-			// console.log($('.home_daterange').html());
-			var daterange = $('.home_daterange').html()
-
-			$.ajax(
+	function attendanceFilter (daterange,branch_name) {
+		var url = '';
+		if (branch_name == 'all') {
+			url = base_url + '/fetchattendance/' + daterange;
+		} else {
+			url = base_url + '/fetchattendance/' + daterange + '/' + branch_name;
+		}
+		$.ajax(
 	        {
-	          url: base_url + '/fetchattendance/' + daterange,
+	          url: url,
 	          type:'GET',
 	          dataType : "json",
 	          data: {},
@@ -275,7 +277,7 @@ $(document).ready(function() {
 						// {field:"rownumber",title:"#",width:50,sortable:!1,selector:!1,textAlign:"center"},
 						{field:"user_name",title:"Name",textAlign:"center"},
 						{field:"user_phone",title:"Phone",textAlign:"center"},
-						{field:"user_kaj",title:"No. KAJ",textAlign:"center"},
+						{field:"branch_name",title:"Branch",textAlign:"center"},
 						{field:"event_name",title:"Event",textAlign:"center"},
 						{field:"event_date",title:"Event Date",textAlign:"center"},
 						{field:"attend_date",title:"Attend Date",textAlign:"center"}
@@ -283,6 +285,30 @@ $(document).ready(function() {
 
 	          }
 	        });
+	}
+
+	var daterangeFlag = false;
+	$(document).on('click','.ranges li, .range_inputs .applyBtn', function(){
+		if ($(this).attr('data-range-key') != "Custom Range") {
+			// console.log($('.home_daterange').html());
+			daterangeFlag = true;
+			var daterange = $('.home_daterange').html();
+			var branch_name = $('#m_form_branch').val();
+
+			attendanceFilter(daterange,branch_name);
+		}
+	});
+
+	$(document).on('change','#m_form_branch', function(){
+		if ($('.ranges li').attr('data-range-key') != "Custom Range") {
+			if (daterangeFlag) {
+				var daterange = $('.home_daterange').html();
+			} else {
+				var daterange = 'all';
+			}
+			var branch_name = $('#m_form_branch').val();
+
+			attendanceFilter(daterange,branch_name);
 		}
 	});
 });
