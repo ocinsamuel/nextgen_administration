@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\HomeTableExport;
+use App\Exports\HomeTableExportWorker;
 use QrCode;
 
 class HomeController extends Controller
@@ -98,5 +101,9 @@ class HomeController extends Controller
         // return response($pngImg)->header('Content-type','image/png');
         return view('qrcode', ['enc' => $encrypted]);
         
+    }
+
+    public function exportExcel () {
+        return Excel::download(new HomeTableExportWorker, 'users.xlsx');
     }
 }

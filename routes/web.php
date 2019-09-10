@@ -15,6 +15,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('qr-code', 'HomeController@generateQRCode')->name('qr-code');
+Route::get('export_home', 'HomeController@exportExcel');
 
 Route::get('attendance/{url}', 'AttendanceController@readURL');
 Route::get('fetchattendance/{daterange}/{filter?}', 'AttendanceController@fetchAttendanceByFilter');
